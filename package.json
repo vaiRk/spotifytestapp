@@ -1,7 +1,7 @@
 {
-  "author": "Doozer",
-  "name": "web-api-code-example",
-  "description": "Basic examples of the Spotify authorization flows through oAuth2",
+  "author": "greasybacon",
+  "name": "merge-yo-playlists",
+  "description": "Allowing users to merge their spotify playlists",
   "version": "0.0.1",
   "main": "app.js",
   "dependencies": {
