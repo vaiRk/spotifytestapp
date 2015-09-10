@@ -1,141 +1,139 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Merge your playlists via Spotify, through this completely novice, thrown-together web application not supported by Spotify in any way!">
+    <meta name="author" content="Github - GreasyBacon">
+
+    <title>Merge Yo' Playlists</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jumbotron.css" rel="stylesheet">
+
   </head>
 
   <body>
-    <div class="container">
-      <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Merge Yo' Playlists (On Spotify)</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <button class="btn btn-default" id="obtain-new-token">Obtain new access token</button>        
+          </form>
+        </div><!--/.navbar-collapse -->
       </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <div id="login">
+          <h1>Merging your Spotify playlists has never been easier.</h1>
+          <p>Using the <a href="https://developer.spotify.com/web-api/">Spotify API</a> and some <a href="https://nodejs.org/en/">node.js</a> magic, use this simple web application to create new merged Spotify playlists.</p>
+          <p><a href="/login" class="btn btn-primary">Start here (Log in with Spotify)</a></p>
+        </div>
+      
+      <script id="user-profile-template" type="text/x-handlebars-template">
+        <h1>Logged in as {{display_name}}</h1>
+        <div class="media">
+          <div class="pull-left">
+            <img class="media-object" width="150" src="{{images.0.url}}" />
+          </div>
+          <div class="media-body">
+            <dl class="dl-horizontal">
+              <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+              <dt>Country</dt><dd>{{country}}</dd>
+              <dt>Id</dt><dd>{{id}}</dd>
+              <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+              <!-- <dt>Email</dt><dd>{{email}}</dd> -->
+              <!-- <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd> -->
+              <!-- <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd> -->
+            </dl>
+          </div>
+        </div>
+      </script>
+      
       <div id="loggedin">
         <div id="user-profile">
         </div>
-        <div id="oauth">
-        </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
       </div>
+      
+      </div>
+
     </div>
 
-    <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
+    <div class="container" id="mainpageinfo">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>How?</h2>
+          <p>Utilising a limited knowledge of the Spotify API and the user authentication procres, I think I've managed to allow you to see all your playlists and merge them together into new ones.</p>
         </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
-          </dl>
+        <div class="col-md-4">
+          <h2>Why?</h2>
+          <p>After doing something like five minutes of quick <a href="https://www.google.com.au/?q=merge+spotify+playlists&gws_rd=cr&ei=yj_xVefECoaXuATU6ofwCQ">googling</a>, there didn't seem
+          to be an easy way to select and merge your Spotify playlists. So why not make a web app for it?</p>
+       </div>
+        <div class="col-md-4">
+          <h2>Who?</h2>
+          <p>My name is <a href="http://dilutedthoughts.com/aboutme/">Rhys</a> and I developed this on a whim for a quick bit of learning and to add an application to my (limited) public portfolio. Send me an <a href="mailto:dilutedthoughts@outlook.com">e-mail</a> if you're interested in a chat (or if you're Spotify and you like/don't like this). </p>
         </div>
       </div>
-    </script>
 
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
-      </dl>
-    </script>
+      <hr>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-      (function() {
+      <footer>
+        <p><a href="https://github.com/GreasyBacon">Your favourite developer, 2015.</a></p>
+      </footer>
+    </div> <!-- /container -->
+    
+    <div class="container" id="userplaylists" hidden>
+      <h2> Your Playlists </h2>
+     <div class="row">
+     
+      <script id="user-profile-playlists" type="text/x-handlebars-template">
+        <div class="media">
+          <div class="media-body">
+            <dl class="dl-horizontal">
+                {{#each items}}
+                <div class="playlist-grid-cell">
+                  <img data-name='{{name}}' data-id={{id}} data-checked="false" width="300" src="{{images.0.url}}" />          
+                  <!-- <input type="checkbox" value={{id}}> -->
+                </div>
+                {{/each}}
+            </dl>
+          </div>
+        </div>
+      </script>
+     
+      <div id="user-playlists">
+      </div>
+     
+     
+     
+     </div>
+    </div>
 
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
-        function getHashParams() {
-          var hashParams = {};
-          var e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-          while ( e = r.exec(q)) {
-             hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          return hashParams;
-        }
 
-        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
-            userProfileTemplate = Handlebars.compile(userProfileSource),
-            userProfilePlaceholder = document.getElementById('user-profile');
-
-        var oauthSource = document.getElementById('oauth-template').innerHTML,
-            oauthTemplate = Handlebars.compile(oauthSource),
-            oauthPlaceholder = document.getElementById('oauth');
-
-        var params = getHashParams();
-
-        var access_token = params.access_token,
-            refresh_token = params.refresh_token,
-            error = params.error;
-
-        if (error) {
-          alert('There was an error during the authentication');
-        } else {
-          if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
-
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
-                  $('#login').hide();
-                  $('#loggedin').show();
-                }
-            });
-          } else {
-              // render initial screen
-              $('#login').show();
-              $('#loggedin').hide();
-          }
-
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
-        }
-      })();
-    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/handlebars-4.0.2.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
-
