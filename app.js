@@ -1,69 +1,52 @@
-/**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- */
-
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var SpotifyWebApi = require('spotify-web-api-node');
+
 var keys = require('./config/keys');
+var common = require('./common/functions');
 
 var client_id = keys['client_id']; // Your client id
 var client_secret = keys['client_secret']; // Your client secret
 var redirect_uri = keys['redirect_uri']; // Your redirect uri
 
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
-var generateRandomString = function(length) {
-  var text = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId : client_id,
+  clientSecret : client_secret,
+  redirectUri : redirect_uri
+});
 
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
+var scopes = [
+		'playlist-read-private',
+		'playlist-read-collaborative',
+		'playlist-modify-private',
+		'playlist-modify-public',
+		'user-read-private'
+];
 
 var stateKey = 'spotify_auth_state';
 
 var app = express();
-
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
-
+   
 app.get('/login', function(req, res) {
-
-  var state = generateRandomString(16);
+	
+	var state = common.generateRandomString(16);
+	var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
+	
   res.cookie(stateKey, state);
-
-  // your application requests authorization
-  var scope = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: client_id,
-      scope: scope,
-      redirect_uri: redirect_uri,
-      state: state
-    }));
+	res.redirect(authorizeURL);
+	
 });
 
 app.get('/callback', function(req, res) {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+	
+	var code = req.query.code || null;
+	var state = req.query.state || null;
+	var storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -116,6 +99,7 @@ app.get('/callback', function(req, res) {
       }
     });
   }
+	
 });
 
 app.get('/refresh_token', function(req, res) {
