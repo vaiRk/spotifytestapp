@@ -4,12 +4,16 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var SpotifyWebApi = require('spotify-web-api-node');
 
-var keys = require('./config/keys');
+//var keys = require('./config/keys');
 var common = require('./common/functions');
 
-var client_id = keys['client_id']; // Your client id
-var client_secret = keys['client_secret']; // Your client secret
-var redirect_uri = keys['redirect_uri']; // Your redirect uri
+//var client_id = keys['client_id']; // Your client id
+//var client_secret = keys['client_secret']; // Your client secret
+//var redirect_uri = keys['redirect_uri']; // Your redirect uri
+
+var client_id = process.env.CLIENT_ID;
+var client_secret = process.env.CLIENT_SECRET;
+var redirect_uri = process.env.REDIRECT_URI;
 
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
