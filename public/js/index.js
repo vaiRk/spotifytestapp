@@ -77,6 +77,24 @@ $(document).ready(function(){
 							}
 						);
 						
+						$( ".playlist-grid-cell" ).click(
+							
+							function() {
+							
+								if ( $( this ).find('.selected').length ) {
+
+									$( this ).find('.selected').remove();
+																	
+								} else {
+								
+									$( this ).parents('div').find('.layer').remove();
+									$( this ).append( $("<div class='selected'><span>SELECTED</span></div>" ) );								
+									
+								}
+								
+							}
+						);
+						
 					}
 				})
 			}
