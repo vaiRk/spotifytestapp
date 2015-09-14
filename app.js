@@ -1,19 +1,20 @@
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var SpotifyWebApi = require('spotify-web-api-node');
 
-//var keys = require('./config/keys');
+var keys = require('./config/keys');
 var common = require('./common/functions');
 
-//var client_id = keys['client_id']; // Your client id
-//var client_secret = keys['client_secret']; // Your client secret
-//var redirect_uri = keys['redirect_uri']; // Your redirect uri
-
-var client_id = process.env.CLIENT_ID;
-var client_secret = process.env.CLIENT_SECRET;
-var redirect_uri = process.env.REDIRECT_URI;
+var client_id = keys['client_id']; // Your client id
+var client_secret = keys['client_secret']; // Your client secret
+var redirect_uri = keys['redirect_uri']; // Your redirect uri
+var private_key = fs.readFileSync(keys['private_key_path'], 'utf8');
+var certificate = fs.readFileSync(keys['certificate_path'], 'utf8');
 
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
@@ -35,6 +36,8 @@ var stateKey = 'spotify_auth_state';
 var app = express();
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
+   
+var credentials = {key: private_key, cert: certificate};
    
 app.get('/login', function(req, res) {
 	
@@ -130,6 +133,12 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-app.listen(process.env.PORT || 3000, function(){
+/*app.listen(process.env.PORT || 3000, function(){
   console.log('listening on respective port');
-});
+});*/
+
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(80);
+httpsServer.listen(443);
