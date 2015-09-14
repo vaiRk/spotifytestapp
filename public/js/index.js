@@ -80,15 +80,28 @@ $(document).ready(function(){
 						$( ".playlist-grid-cell" ).click(
 							
 							function() {
+								
+								var albumCount = $("#album-count");
 							
 								if ( $( this ).find('.selected').length ) {
 
 									$( this ).find('.selected').remove();
+									
+									var count = parseInt(albumCount.text()) - 1;
+									albumCount.text(count);
 																	
 								} else {
 								
 									$( this ).parents('div').find('.layer').remove();
 									$( this ).append( $("<div class='selected'><span><img class='centre' src='../img/tick.png' height='200'></span></div>" ) );								
+									
+									if (albumCount.text().length) {
+										var count = parseInt(albumCount.text()) + 1;
+										albumCount.text(count);
+									} else {
+										albumCount.text('1');
+									}
+									
 									
 								}
 								
