@@ -88,7 +88,7 @@ $(document).ready(function(){
 								} else {
 								
 									$( this ).parents('div').find('.layer').remove();
-									$( this ).append( $("<div class='selected'><span>SELECTED</span></div>" ) );								
+									$( this ).append( $("<div class='selected'><span><img class='centre' src='../img/tick.png' height='200'></span></div>" ) );								
 									
 								}
 								
