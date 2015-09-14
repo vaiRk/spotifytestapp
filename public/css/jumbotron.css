@@ -49,7 +49,10 @@ body {
   text-align: center;
   font-size: 20px;
   font-style: italic;
-  vertical-align: middle;
-  position:absolute;
-  top:50%; 
+}
+
+img.centre {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
