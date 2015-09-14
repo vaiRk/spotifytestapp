@@ -66,7 +66,7 @@ $(document).ready(function(){
 						
 						$("#userplaylists").show();
 						
-						$( "img" ).mouseenter(
+						$( ".playlist-grid-cell img" ).mouseenter(
 							
 							function() {
 								
