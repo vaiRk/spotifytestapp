@@ -18,10 +18,10 @@ $(document).ready(function(){
 		userProfileTemplate = Handlebars.compile(userProfileSource),
 		userProfilePlaceholder = document.getElementById('user-profile');
 		
-	var userPlaylistsSource = document.getElementById('user-profile-playlists').innerHTML,
+	var userPlaylistsSource = document.getElementById('playlist').innerHTML,
 		userPlaylistsTemplate = Handlebars.compile(userPlaylistsSource),
 		userPlaylistsPlaceholder = document.getElementById('user-playlists');
-
+		
 	//var oauthSource = document.getElementById('oauth-template').innerHTML,
 	//	oauthTemplate = Handlebars.compile(oauthSource),
 	//	oauthPlaceholder = document.getElementById('oauth');
@@ -62,61 +62,56 @@ $(document).ready(function(){
 						'Authorization': 'Bearer ' + access_token
 					},
 					success: function(response) {
-						userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(response);
+
+						for (var i=0; i<response['items'].length; i++) {
+							var template = userPlaylistsTemplate(response['items'][i]);
+							userPlaylistsPlaceholder.innerHTML += template;
+						}
 						
 						$("#userplaylists").show();
 						
-						$( ".playlist-grid-cell img" ).mouseenter(
-							
-							function() {
-								
-								var title = $(this).data('name')
-								
-								$( this ).parents('div').find('.layer').remove();
-								$( this ).parent().append( $( "<div class='layer'><span>" + title + "</span></div>" ) );
-							}
-						);
+						$(".span-tooltip").tooltip({
+							placement: "top"
+						});
 						
-						$( ".playlist-grid-cell" ).click(
-							
-							function() {
-								
-								var albumCount = $("#album-count");
-								var trackCount = $("#track-count");
-								var dataTrackCount = parseInt($( this ).children('img').data('trackcount'));
-							
-								if ( $( this ).find('.selected').length ) {
+						var alreadyloading = false;
+						var offset = 50;
+						
+						$(window).scroll(function() {
+							if ($('body').height() <= ($(window).height() + $(window).scrollTop())) {
+								if (alreadyloading == false) {
+									alreadyloading = true;
+									
+									$.ajax({
+										url: 'https://api.spotify.com/v1/users/' + userId + '/playlists?limit=50&offset=' + offset,
+										headers: {
+											'Authorization': 'Bearer ' + access_token
+										},
+										success: function(response){
 
-									$( this ).find('.selected').remove();
-									
-									var count = parseInt(albumCount.text()) - 1;
-									albumCount.text(count);
-									
-									var trackCountVal = parseInt(trackCount.text()) - dataTrackCount;
-									trackCount.text(trackCountVal);
-																	
-								} else {
-								
-									$( this ).parents('div').find('.layer').remove();
-									$( this ).append( $("<div class='selected'><span><img class='centre' src='../img/tick.png' height='200'></span></div>" ) );								
-									
-									if (albumCount.text().length) {
-										var count = parseInt(albumCount.text()) + 1;
-										albumCount.text(count);
-										
-										var trackCountVal = parseInt(trackCount.text()) + dataTrackCount;
-										trackCount.text(trackCountVal);
-										
-									} else {
-										albumCount.text('1');
-										trackCount.text(dataTrackCount);
-									}
+											for (var i=0; i<response['items'].length; i++) {
+												var template = userPlaylistsTemplate(response['items'][i]);
+												userPlaylistsPlaceholder.innerHTML += template;
+											}
+											
+											if (response['next']) {
+												offset += 50;
+												alreadyloading = false;
+											} else {
+												$("#no-playlists-left").show();
+											}
+											
+											applyEventListeners();
+											
+										}
+									});
 									
 									
 								}
-								
 							}
-						);
+						});
+						
+						applyEventListeners();
 						
 					}
 				})

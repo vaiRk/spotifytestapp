@@ -16,6 +16,7 @@ body {
 .playlist-grid-cell img {
   padding: 5px;
   max-height: 300px;
+  min-height: 300px;
 }
 
 .layer {
@@ -65,4 +66,8 @@ img.centre {
   right: 10px;
   width: 20%;
   text-align: right;
+}
+
+.glyphicon {
+    font-size: 45px;
 }
