@@ -111,7 +111,9 @@
      
       <script id="playlist" type="text/x-handlebars-template">
         <div class="playlist-grid-cell">
-            <img data-name='{{name}}' data-id={{id}} data-trackcount={{tracks.total}} data-checked="false" width="300" src="{{images.0.url}}" />          
+            <a class="thumbnail">
+              <img data-name='{{name}}' data-id={{id}} data-trackcount={{tracks.total}} data-checked="false" width="300" src="{{images.0.url}}" />          
+            </a>
         </div>
       </script>
      
