@@ -23,7 +23,7 @@ var applyEventListeners = function() {
 			var mergeButton = $("#merge-button");
 			var albumCount = $("#album-count");
 			var trackCount = $("#track-count");
-			var dataTrackCount = parseInt($( this ).children('img').data('trackcount'));
+			var dataTrackCount = parseInt($( this ).find('img').data('trackcount'));
 		
 			if ( $( this ).find('.selected').length ) {
 
