@@ -110,7 +110,7 @@
             <dl class="dl-horizontal">
                 {{#each items}}
                 <div class="playlist-grid-cell">
-                  <img data-name='{{name}}' data-id={{id}} data-checked="false" width="300" src="{{images.0.url}}" />          
+                  <img data-name='{{name}}' data-id={{id}} data-trackcount={{tracks.total}} data-checked="false" width="300" src="{{images.0.url}}" />          
                   <!-- <input type="checkbox" value={{id}}> -->
                 </div>
                 {{/each}}
@@ -128,7 +128,7 @@
        <h3>You have selected</h3>
        <h2 id='album-count'>0</h2>
        <h3>albums, containing</h3>
-       <h2 id='track-count'>XX</h2>
+       <h2 id='track-count'>0</h2>
        <h3>tracks.</h3>
      </div>
      

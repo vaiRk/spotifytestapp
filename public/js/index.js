@@ -82,6 +82,8 @@ $(document).ready(function(){
 							function() {
 								
 								var albumCount = $("#album-count");
+								var trackCount = $("#track-count");
+								var dataTrackCount = parseInt($( this ).children('img').data('trackcount'));
 							
 								if ( $( this ).find('.selected').length ) {
 
@@ -89,6 +91,9 @@ $(document).ready(function(){
 									
 									var count = parseInt(albumCount.text()) - 1;
 									albumCount.text(count);
+									
+									var trackCountVal = parseInt(trackCount.text()) - dataTrackCount;
+									trackCount.text(trackCountVal);
 																	
 								} else {
 								
@@ -98,8 +103,13 @@ $(document).ready(function(){
 									if (albumCount.text().length) {
 										var count = parseInt(albumCount.text()) + 1;
 										albumCount.text(count);
+										
+										var trackCountVal = parseInt(trackCount.text()) + dataTrackCount;
+										trackCount.text(trackCountVal);
+										
 									} else {
 										albumCount.text('1');
+										trackCount.text(dataTrackCount);
 									}
 									
 									
