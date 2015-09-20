@@ -82,6 +82,8 @@ $(document).ready(function(){
 								if (alreadyloading == false) {
 									alreadyloading = true;
 									
+									$("#playlists-loading-gif").show();
+									
 									$.ajax({
 										url: 'https://api.spotify.com/v1/users/' + userId + '/playlists?limit=50&offset=' + offset,
 										headers: {
@@ -93,6 +95,8 @@ $(document).ready(function(){
 												var template = userPlaylistsTemplate(response['items'][i]);
 												userPlaylistsPlaceholder.innerHTML += template;
 											}
+											
+											$("#playlists-loading-gif").hide();
 											
 											if (response['next']) {
 												offset += 50;
