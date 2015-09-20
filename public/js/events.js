@@ -9,9 +9,19 @@ var applyEventListeners = function() {
 		function() {
 							
 			var title = $(this).data('name')
+			var tracks = $(this).data('trackcount');
 									
 			$( this ).parents('div').find('.layer').remove();
-			$( this ).parent().append( $( "<div class='layer'><span>" + title + "</span></div>" ) );
+			$( this ).parent().append( $( "<div class='layer'>" +
+			"<table><tr><td>" + 
+			title + 
+			"</td></tr>" +
+			"<tr><td><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></td>" +			
+			"</tr><tr><td>" +
+			tracks + 
+			" tracks</td></tr>" +
+			"</table>" + 			
+			"</div>" ) );
 	
 		}
 	);
@@ -42,7 +52,8 @@ var applyEventListeners = function() {
 			} else {
 			
 				$( this ).parents('div').find('.layer').remove();
-				$( this ).append( $("<div class='selected'><span><img class='centre' src='../img/tick.png' height='200'></span></div>" ) );								
+				$( this ).children('a').append( $("<div class='selected'><table><tr><td>Selected!</td></tr>" +
+				"<tr><td><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></td></tr></table></div>" ) );								
 				
 				if (albumCount.text().length) {
 					var count = parseInt(albumCount.text()) + 1;
