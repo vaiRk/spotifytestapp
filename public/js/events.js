@@ -96,7 +96,6 @@ var applyEventListeners = function(userId, access_token) {
 			//create new playlist with name provided
 			var playlistId = createPlaylist(userId, access_token, playlistName);
 			
-			debugger
 			//get tracks for each playlist, add to big array
 			playlistResults.find('.selected').each(function() {
 				var playlist = $(this).parent();
@@ -104,8 +103,7 @@ var applyEventListeners = function(userId, access_token) {
 				var tracksToMerge = getPlaylistTracks(userId, access_token, tracksURL);
 				tracks.push(tracksToMerge);
 			}, this);
-			
-			debugger;
+
 			console.log(tracks);
 			//add all tracks to new playlist - with playlistId
 								
