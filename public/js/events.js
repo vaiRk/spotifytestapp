@@ -8,7 +8,7 @@ var applyEventListeners = function(userId, access_token) {
 							
 		function() {
 							
-			var title = $(this).data('name')
+			var title = $(this).data('name');
 			var tracks = $(this).data('trackcount');
 									
 			$( this ).parents('div').find('.layer').remove();
@@ -88,19 +88,26 @@ var applyEventListeners = function(userId, access_token) {
 		function() {
 								
 			var playlistResults = $("#playlist-results");
-			var selectedPlaylists = playlistResults.find('.selected');
 			var playlistName = $("#playlist-name").val();
 			var tracks = [];
 			
 			$( this ).prop('disabled', true);
 			
 			//create new playlist with name provided
-			createPlaylist(userId, access_token, playlistName);
+			var playlistId = createPlaylist(userId, access_token, playlistName);
 			
+			debugger
 			//get tracks for each playlist, add to big array
+			playlistResults.find('.selected').each(function() {
+				var playlist = $(this).parent();
+				var tracksURL = $(playlist.children('img')).data('trackurl');
+				var tracksToMerge = getPlaylistTracks(userId, access_token, tracksURL);
+				tracks.push(tracksToMerge);
+			}, this);
 			
-			
-			//add all tracks to new playlist
+			debugger;
+			console.log(tracks);
+			//add all tracks to new playlist - with playlistId
 								
 								
 		}
