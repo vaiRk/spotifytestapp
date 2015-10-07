@@ -140,5 +140,5 @@ app.get('/refresh_token', function(req, res) {
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8888);
-//httpsServer.listen(443);
+httpServer.listen(80);
+httpsServer.listen(443);
