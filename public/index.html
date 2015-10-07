@@ -129,17 +129,18 @@
       <div id='no-playlists-left' style="text-align:center" hidden>
           <h3>End of your playlists!</h3>
       </div>
-
-      <div class="well well-lg album-track-count">
-       <h3>You have selected</h3>
-       <h2 id='album-count'>0</h2>
-       <h3>playlists, containing</h3>
-       <h2 id='track-count'>0</h2>
-       <h3>tracks.</h3>
-       <button class="btn btn-success" id="merge-button" disabled>Merge Yo Playlists!</button>
-     </div>
      
     </div>
+
+    <!-- <div class="footer navbar-fixed-bottom album-track-count"> -->
+    <div class="footer navbar-default navbar-fixed-bottom" id='footer-info' hidden>
+       <div class="footer-info-insert">
+         <span class="glyphicon glyphicon-cd"></span><span id='album-count'>0</span> 
+         <span class="glyphicon glyphicon-music"></span><span id='track-count'>0</span>          
+         <button class="btn btn-success" id="merge-button" disabled>Merge Yo' Playlists!</button>
+       </div>
+    </div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
