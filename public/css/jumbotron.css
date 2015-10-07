@@ -78,7 +78,6 @@ body {
 
 .footer-info-insert {
   margin: 0 auto; 
-  width: 30%; 
   text-align:center; 
   display:table;
   height: 50px;
@@ -91,9 +90,15 @@ body {
   font-size: 2.5em;
 }
 
-.footer-info-insert > button {
+.footer-info-insert > form {
   display: table-cell;
   vertical-align: middle;
-  padding: 10px;
   margin-top:15px;
+}
+
+.footer-info-insert > form > input {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top:15px;
+  width: 50%
 }

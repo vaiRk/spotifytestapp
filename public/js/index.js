@@ -105,7 +105,7 @@ $(document).ready(function(){
 												$("#no-playlists-left").show();
 											}
 											
-											applyEventListeners();
+											applyEventListeners(userId, access_token);
 											
 										}
 									});
@@ -115,7 +115,7 @@ $(document).ready(function(){
 							}
 						});
 						
-						applyEventListeners();
+						applyEventListeners(userId, access_token);
 						
 					}
 				})

@@ -1,4 +1,4 @@
-var applyEventListeners = function() {
+var applyEventListeners = function(userId, access_token) {
 	
 	$( ".playlist-grid-cell img" ).off('mouseenter');
 	$( ".playlist-grid-cell" ).off('click');
@@ -87,6 +87,20 @@ var applyEventListeners = function() {
 							
 		function() {
 								
+			var playlistResults = $("#playlist-results");
+			var selectedPlaylists = playlistResults.find('.selected');
+			var playlistName = $("#playlist-name").val();
+			var tracks = [];
+			
+			$( this ).prop('disabled', true);
+			
+			//create new playlist with name provided
+			createPlaylist(userId, access_token, playlistName);
+			
+			//get tracks for each playlist, add to big array
+			
+			
+			//add all tracks to new playlist
 								
 								
 		}
