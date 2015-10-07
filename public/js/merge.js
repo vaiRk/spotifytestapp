@@ -10,7 +10,7 @@ var createPlaylist = function(userId, accessToken, playlistName) {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function(response){
-			return response;
+			return response['id'];
 		},
 		error: function(){
 			
@@ -19,7 +19,48 @@ var createPlaylist = function(userId, accessToken, playlistName) {
 	
 };
 
-var getPlaylistTracks = function(userId, accessToken, playlistId) {
+var getPlaylistTracks = function(userId, accessToken, tracksURL) {
+	
+	var tracks = [];
+	var initialOffset = 0;
+	
+	var apiCall = function(offset) {
+		$.ajax({
+			url: tracksURL + '?offset=' + offset,
+			method: 'GET',
+			headers: {
+				'Authorization': 'Bearer ' + accessToken
+			},
+			success: function(response){
+
+				if (response['items'].length){
+					
+					response['items'].forEach(function(track){
+						tracks.push(track['track']['id']);
+					});
+					
+					if (response['next']){
+						
+						initialOffset += 100;
+						setTimeout(function(){apiCall(initialOffset);}, 2000);
+											
+					} else {
+						console.log(tracks);
+						return tracks;
+					}
+										
+				} else {
+					return tracks;
+				}
+				
+			},
+			error: function(){
+				
+			}
+		});
+	};
+	
+	apiCall(initialOffset);
 	
 };
 
