@@ -75,3 +75,25 @@ body {
 .glyphicon {
     font-size: 45px;
 }
+
+.footer-info-insert {
+  margin: 0 auto; 
+  width: 30%; 
+  text-align:center; 
+  display:table;
+  height: 50px;
+}
+
+.footer-info-insert > span {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 2.5em;
+}
+
+.footer-info-insert > button {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px;
+  margin-top:15px;
+}
