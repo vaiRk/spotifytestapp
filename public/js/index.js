@@ -136,10 +136,6 @@ $(document).ready(function(){
 			}
 		}).done(function(data) {
 			access_token = data.access_token;
-			//oauthPlaceholder.innerHTML = oauthTemplate({
-			//access_token: access_token,
-			//refresh_token: refresh_token
-			//});
 		});
 		}, false);
 		
