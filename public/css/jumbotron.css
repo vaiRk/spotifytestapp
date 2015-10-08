@@ -5,8 +5,14 @@ body {
 }
 
 .jumbotron {
-  background-image: url('../img/concert3.jpg');
+  background-image: url('../img/rockInstruments.jpg');
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #F5FFFA;
+  text-outline: 2px 2px #ff0000;
 }
 
 .playlist-grid-cell {
