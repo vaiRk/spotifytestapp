@@ -38,12 +38,15 @@
     </nav>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div id="jumboheader" class="jumbotron">
       <div class="container">
         <div id="login">
-          <h1>Merging your Spotify playlists has never been easier.</h1>
-          <p>Using the <a href="https://developer.spotify.com/web-api/">Spotify API</a> and some <a href="https://nodejs.org/en/">node.js</a> magic, use this simple web application to create new merged Spotify playlists.</p>
-          <p><a href="/login" class="btn btn-primary">Start here (Log in with Spotify)</a></p>
+          <div class="col-md-6 jumboheadertext">
+            <h1>Merging your Spotify playlists has never been easier.</h1>
+            <br>
+            <p>Using the <a href="https://developer.spotify.com/web-api/">Spotify API</a> and some <a href="https://nodejs.org/en/">node.js</a> magic, use this simple web application to create new merged Spotify playlists.</p>
+            <p><a href="/login" class="btn btn-success btn-lg">Start here (Log in with Spotify)</a></p>
+          </div>
         </div>
       
       <script id="user-profile-template" type="text/x-handlebars-template">

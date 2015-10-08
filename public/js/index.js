@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+	//set height of jumbotron straight away	
+	var jumbotronHeader = $("#jumboheader");
+	jumbotronHeader.height(window.innerHeight / 2);
 	
 	/**
 		* Obtains parameters from the hash of the URL
