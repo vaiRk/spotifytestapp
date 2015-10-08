@@ -97,14 +97,23 @@ var applyEventListeners = function(userId, access_token) {
 			var playlistId = createPlaylist(userId, access_token, playlistName);
 			
 			//get tracks for each playlist, add to big array
-			playlistResults.find('.selected').each(function() {
-				var playlist = $(this).parent();
+			Promise.map(playlistResults.find('.selected').toArray(), function(playlistResult) {
+				
+				var playlist = $(playlistResult).parent();
 				var tracksURL = $(playlist.children('img')).data('trackurl');
-				var tracksToMerge = getPlaylistTracks(userId, access_token, tracksURL);
-				tracks.push(tracksToMerge);
-			}, this);
-
-			console.log(tracks);
+				
+				return getPlaylistTracks(userId, access_token, tracksURL)
+				.then(function(tracksToMerge){
+					
+					tracks.push(tracksToMerge);
+				});
+				
+			}).then(function(allTracks){
+				
+				//TO DO - remove duplicates and store in one array to be added
+				
+			});
+			
 			//add all tracks to new playlist - with playlistId
 								
 								
