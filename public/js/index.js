@@ -2,6 +2,7 @@ $(document).ready(function(){
 
 	//set height of jumbotron straight away	
 	var jumbotronHeader = $("#jumboheader");
+	var initialJumboHeight = jumbotronHeader.height();
 	jumbotronHeader.height(window.innerHeight / 2);
 	
 	/**
@@ -56,6 +57,7 @@ $(document).ready(function(){
 				
 				$('#login').hide();
 				$("#mainpageinfo").hide();
+				jumbotronHeader.height(initialJumboHeight);
 				$('#loggedin').show();
 				
 				var userId = response.id;
