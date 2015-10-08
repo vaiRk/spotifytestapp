@@ -1,3 +1,7 @@
+var mergeCompleted = function() {
+	
+};
+
 var applyEventListeners = function(userId, access_token) {
 	
 	$( ".playlist-grid-cell img" ).off('mouseenter');
@@ -96,27 +100,41 @@ var applyEventListeners = function(userId, access_token) {
 			//create new playlist with name provided
 			var playlistId = createPlaylist(userId, access_token, playlistName);
 			
-			//get tracks for each playlist, add to big array
-			Promise.map(playlistResults.find('.selected').toArray(), function(playlistResult) {
-				
-				var playlist = $(playlistResult).parent();
-				var tracksURL = $(playlist.children('img')).data('trackurl');
-				
-				return getPlaylistTracks(userId, access_token, tracksURL)
-				.then(function(tracksToMerge){
+			playlistId.then(function(id){
+			
+				var playlistId = id;	
+			
+				//get tracks for each playlist, add to big array
+				Promise.map(playlistResults.find('.selected').toArray(), function(playlistResult) {
 					
-					tracks.push(tracksToMerge);
+					var playlist = $(playlistResult).parent();
+					var tracksURL = $(playlist.children('img')).data('trackurl');
+					
+					return getPlaylistTracks(userId, access_token, tracksURL)
+					
+				}).then(function(allTracks){
+					
+					var mergedList = [].concat.apply([], allTracks);
+					var filteredList = mergedList.concat();
+					
+					for(var i=0; i<filteredList.length; ++i) {
+						for(var j=i+1; j<filteredList.length; ++j) {
+							if(filteredList[i] === filteredList[j])
+								filteredList.splice(j--, 1);
+						}
+					}
+					
+					//add all tracks to new playlist - with playlistId
+					Promise.try(addTracksToPlaylist(userId, access_token, playlistId, filteredList))
+					.then(function(playlistId){
+						debugger
+						mergeCompleted(playlistId);
+					});				
+					
 				});
-				
-			}).then(function(allTracks){
-				
-				//TO DO - remove duplicates and store in one array to be added
-				
+			
 			});
 			
-			//add all tracks to new playlist - with playlistId
-								
-								
 		}
 	);
 };

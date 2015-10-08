@@ -1,21 +1,25 @@
 var createPlaylist = function(userId, accessToken, playlistName) {
 	
-	$.ajax({
-		url: 'https://api.spotify.com/v1/users/' + userId + '/playlists',
-		method: 'POST',
-		headers: {
-			'Authorization': 'Bearer ' + accessToken
-		},
-		data: JSON.stringify({ 'name': playlistName, 'public': true}),
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		success: function(response){
-			return response['id'];
-		},
-		error: function(){
-			
-		}
-	});
+	return Promise.resolve(
+		$.ajax({
+			url: 'https://api.spotify.com/v1/users/' + userId + '/playlists',
+			method: 'POST',
+			headers: {
+				'Authorization': 'Bearer ' + accessToken
+			},
+			data: JSON.stringify({ 'name': playlistName, 'public': true}),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function(response){
+
+			},
+			error: function(){
+				
+			}
+		})
+	).then(function(response){
+		return response['id'];
+	})
 	
 };
 
@@ -43,7 +47,7 @@ var getPlaylistTracks = function(userId, accessToken, tracksURL) {
 			if (response['items'].length){
 						
 				response['items'].forEach(function(track){
-					tracks.push(track['track']['id']);
+					tracks.push(track['track']['uri']);
 				});
 				
 				if (response['next']){
@@ -67,23 +71,58 @@ var getPlaylistTracks = function(userId, accessToken, tracksURL) {
 
 };
 
-var addTracksToPlaylist = function(userId, accessToken, playlistId, trackIds) {
+var addTracksToPlaylist = function(userId, accessToken, playlistId, allTrackIds) {
 	
-	var apiCall = function(offset) {
-		$.ajax({
-			url: '',
-			method: 'POST',
-			headers: {
-				'Authorization': 'Bearer ' + accessToken
-			},
-			success: function(response){
+	var initialPos = 0;
+	var endPos = 100;
+	
+	if (endPos > allTrackIds.length) {
+		endPos = allTrackIds.length;
+	}
+	
+	var apiCall = function(trackIds) {
+		return Promise.resolve(
+			$.ajax({
+				url: 'https://api.spotify.com/v1/users/'+ userId +'/playlists/' + playlistId + '/tracks',
+				method: 'POST',
+				data: JSON.stringify({'uris': trackIds}),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				headers: {
+					'Authorization': 'Bearer ' + accessToken
+				},
+				success: function(response){
+					
+				},
+				error: function(){
+					
+				}
+			})
+		).then(function(response){
+			if (response['snapshot_id']) {
 				
-			},
-			error: function(){
+				if (endPos == allTrackIds.length) {
+					return playlistId;
+				}
 				
+				initialPos += 100;
+				endPos += 100;
+				
+				if (endPos > allTrackIds.length) {
+					endPos = allTrackIds.length;
+				}
+				
+				return Promise.delay(2000).then(function() {
+					return apiCall(allTrackIds.slice(initialPos, endPos));
+				});
+				
+			} else {
+				throw 'ERROR';
 			}
 		});
 	};
+	
+	return apiCall(allTrackIds.slice(initialPos, endPos));
 	
 	
 };
